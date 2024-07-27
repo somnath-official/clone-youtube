@@ -1,17 +1,17 @@
-import { initQueue } from "./jobs";
+import { initQueue } from "./queue";
+import { initRedis } from "./redis/indix";
 import { initServer } from "./server";
 import { log } from "./utils/log";
 
 (async (): Promise<void>  => {
-    // Init Queue
-    await initQueue()
-    .then(() => log('Queue started'))
-    .catch(() => log('Failed to start queue'))
-
-    // Init Server
-    await initServer()
-    .then((url) => log(url))
-    .catch(() => log('Failed to start server'))
+    try {
+        await initRedis()
+        await initQueue()
+        await initServer()
+    } catch (err: any) {
+        log(err.message)
+        process.exit(1)
+    }
 })()
 
 process.on('unhandledRejection', (err) => {
