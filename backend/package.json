@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^21.3.10",
+    "bull": "^4.15.1",
     "dotenv": "^16.4.5",
     "joi": "^17.13.3",
     "ts-node": "^10.9.2"
