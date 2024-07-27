@@ -1,4 +1,4 @@
-export interface FilePayloadType {
+export interface HapiFileType {
     path: string,
     bytes: number,
     filename: string,

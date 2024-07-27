@@ -1,1 +1,1 @@
-export {FilePayloadType} from './VideoTypes'
+export {HapiFileType} from './VideoTypes'
