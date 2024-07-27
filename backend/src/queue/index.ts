@@ -10,11 +10,16 @@ export let Queue: Bull.Queue<any> | null = null
 
 export const initQueue = async (): Promise<void> => {
     log('Starting Queue')
+
     Queue = new Bull('youtube-queue', {
         redis: {
             port: REDIS_PORT,
             host: REDIS_HOST
         }
+    })
+    .on('completed', async (job) => {
+        log(`Job complete! type: ${job.data.type} queue-id: ${job.id}`)
+        await job.remove()
     })
 
     Queue.process(async (job) => {
@@ -23,4 +28,11 @@ export const initQueue = async (): Promise<void> => {
     })
 
     log('Queue is running!')
+}
+
+export const queueProducer = async (type: string, data: any) => {
+    if (Queue) {
+        const res = await Queue.add({ type, data })
+        log(`Queue created. type: ${type} and queue-id: ${res.id}`)
+    }
 }
