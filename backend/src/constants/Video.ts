@@ -1,0 +1,6 @@
+export const RESOLUTION_144p = '144p'
+export const RESOLUTION_240p = '240p'
+export const RESOLUTION_360p = '360p'
+export const RESOLUTION_480p = '480p'
+export const RESOLUTION_720p = '720p'
+export const RESOLUTION_1080p = '1080p'

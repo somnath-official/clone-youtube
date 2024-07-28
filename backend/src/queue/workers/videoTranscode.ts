@@ -1,26 +1,27 @@
-import Bull from "bull"
 import { log } from "../../utils/log"
+import { VideoTranscodePayloadType } from "../../types"
 
-export const videoTranscode_144p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
-}
-
-export const videoTranscode_240p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
-}
-
-export const videoTranscode_360p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
-}
-
-export const videoTranscode_480p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
-}
-
-export const videoTranscode_720p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
-}
-
-export const videoTranscode_1080p = async (job: Bull.Job<any>) => {
-    // log(JSON.stringify(job.data))
+export const videoTranscode = async (data: VideoTranscodePayloadType) => {
+    switch(data.resolution) {
+        case '144p':
+            log(data.resolution)
+            break
+        case '240p':
+            log(data.resolution)
+            break
+        case '360p':
+            log(data.resolution)
+            break
+        case '480p':
+            log(data.resolution)
+            break
+        case '720p':
+            log(data.resolution)
+            break
+        case '1080p':
+            log(data.resolution)
+            break
+        default:
+            log('Invalid format encode')
+    }
 }

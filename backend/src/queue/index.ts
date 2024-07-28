@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { REDIS_HOST, REDIS_PORT } from "../config/redis"
 import { log } from "../utils/log"
 import { JOB_LISTS } from "./workers"
+import { QueueTypes } from "../types"
 
 dotenv.config()
 
@@ -18,7 +19,7 @@ export const initQueue = async (): Promise<void> => {
         }
     })
     .on('completed', async (job) => {
-        log(`Job complete! type: ${job.data.type} queue-id: ${job.id}`)
+        log(`Job complete! type: ${job.data.type}, queue-id: ${job.id}`)
         await job.remove()
     })
 
@@ -30,7 +31,7 @@ export const initQueue = async (): Promise<void> => {
     log('Queue is running!')
 }
 
-export const queueProducer = async (type: string, data: any) => {
+export const queueProducer = async (type: QueueTypes, data: any) => {
     if (Queue) {
         const res = await Queue.add({ type, data })
         log(`Queue created. type: ${type} and queue-id: ${res.id}`)
