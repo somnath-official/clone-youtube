@@ -1,0 +1,10 @@
+model Job {
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId
+    type          String
+    payload       Json
+    is_processing Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
+}

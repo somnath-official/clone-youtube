@@ -1,0 +1,14 @@
+model Video {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  path         String
+  meta_data    Json
+  is_published Boolean
+
+  user_id String @db.ObjectId
+  User    User   @relation(fields: [user_id], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}

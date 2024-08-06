@@ -10,9 +10,10 @@ export const videoRoutes: ServerRoute[] = [
         path: '/video/upload',
         options: {
             tags: TAGS,
+            handler: Upload,
             validate: {
                 payload: Joi.object({
-                    file: Joi.any().meta({ swaggerType: 'file' }).required(),
+                    file: Joi.any().meta({ swaggerType: 'file' }).required()
                 })
             },
             plugins: {
@@ -21,12 +22,12 @@ export const videoRoutes: ServerRoute[] = [
                 }
             },
             payload: {
-                maxBytes: 1024 * 1024 * 1024, // 1GB
-                multipart: { output: 'file' },
-                allow: 'multipart/form-data',
+                maxBytes: 1024 * 1024 * 1024 * 1,
+                multipart: {
+                    output: 'stream'
+                },
                 parse: true
             },
         },
-        handler: Upload
     }
 ]
