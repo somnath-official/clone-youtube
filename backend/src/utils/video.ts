@@ -20,7 +20,7 @@ export const mergeChunks = async (videoPath: string, totalChunks: number, origin
         fs.unlinkSync(chunkFilePath); // Delete the individual chunk file after merging
     }
 
-    fs.rmSync(videoPath, {recursive: true})
+    fs.rmSync(chunkDir, {recursive: true})
 
     writeStream.end();
 
@@ -32,7 +32,8 @@ const initVideoTranscode = async (videoPath: string, fileName: string) => {
         log('Invalid video path to transcode!')
         return
     }
-    const { videoMetadata, audioMetadata } = await getVideoMetaData(videoPath)
+
+    const { videoMetadata, audioMetadata } = await getVideoMetaData(`${videoPath}/${fileName}`)
 
     console.log(videoMetadata)
     // await VideoTranscodeQueue({fileName: fileName, resolution: RESOLUTION_144p})

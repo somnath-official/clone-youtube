@@ -1,8 +1,9 @@
 import './App.css'
+import { FileUpload } from './components/FileUpload'
 
 function App() {
   return (
-    <h1>Hello World</h1>
+    <FileUpload />
   )
 }
 
