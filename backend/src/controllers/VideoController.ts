@@ -53,7 +53,9 @@ export const Upload = async (req: Request, res: ResponseToolkit) => {
         // TODO - We need to save this payload into DB and pass the job id to to the queue
         if (chunkNumber === totalChunks) {
             await MergeVideoChunkQueue({videoPath, totalChunks, originalname})
-            return res.response('Video is uploaded successfully! It will be under review process and you will be notified once it is done.').code(200)
+            return res.response({
+                message: 'Video is uploaded successfully! It will be under review process and you will be notified once it is done.'
+            }).code(200)
         }
         
         return res.response({

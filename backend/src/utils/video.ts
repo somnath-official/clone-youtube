@@ -35,7 +35,6 @@ const initVideoTranscode = async (videoPath: string, fileName: string) => {
 
     const { videoMetadata, audioMetadata } = await getVideoMetaData(`${videoPath}/${fileName}`)
 
-    console.log(videoMetadata)
     // await VideoTranscodeQueue({fileName: fileName, resolution: RESOLUTION_144p})
     // await VideoTranscodeQueue({fileName: fileName, resolution: RESOLUTION_240p})
     // await VideoTranscodeQueue({fileName: fileName, resolution: RESOLUTION_360p})

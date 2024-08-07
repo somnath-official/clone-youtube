@@ -1,9 +1,0 @@
-model FailedJobs {
-    id      String @id @default(auto()) @map("_id") @db.ObjectId
-    type    String
-    payload Json
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    deletedAt DateTime?
-}
