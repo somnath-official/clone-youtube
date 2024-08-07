@@ -1,6 +1,6 @@
 import Bull from "bull"
-import { videoTranscode } from "./video"
-import { QueueTypes, SendEmailPayloadType, VideoTranscodePayloadType } from "../../types"
+import { mergeVideoChunks, videoTranscode } from "./video"
+import { MergeVideoChunkPayloadType, QueueTypes, SendEmailPayloadType, VideoTranscodePayloadType } from "../../types"
 import { sendEmail } from "./email"
 
 export const JOB_LISTS: {type: QueueTypes, action: (job: Bull.Job<any>) => void}[] = [
@@ -11,5 +11,9 @@ export const JOB_LISTS: {type: QueueTypes, action: (job: Bull.Job<any>) => void}
     {
         type: 'SendEmail',
         action: (job) => sendEmail(job.data.data as SendEmailPayloadType),
+    },
+    {
+        type: 'MergeVideoChunk',
+        action: (job) => mergeVideoChunks(job.data.data as MergeVideoChunkPayloadType),
     }
 ]

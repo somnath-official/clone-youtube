@@ -1,38 +1,60 @@
 import { Request, ResponseToolkit } from "@hapi/hapi";
-import { HapiFileType } from "../types";
+import path from "path";
+import fs from "fs"
 import { log } from "../utils/log";
-import { getVideoMetaData } from "../utils/ffmpeg";
-import {
-    RESOLUTION_1080p,
-    RESOLUTION_144p,
-    RESOLUTION_240p,
-    RESOLUTION_360p,
-    RESOLUTION_480p,
-    RESOLUTION_720p
-} from "../constants/Video";
-import { VideoTranscodeQueue } from "../queue/producers/video";
-import { SendEmailQueue } from "../queue/producers/email";
+import { v4 as uuidv4 } from 'uuid';
+import { mergeChunks } from "../utils/video";
+import { MergeVideoChunkQueue } from "../queue/producers/video";
+
+/**
+ * Before initiating the chunk file upload, we need to create a unique fileName
+ * which will be used to identify each chunk uniquely
+ * 
+ * @param req Request
+ * @param res ResponseToolKit
+ * @returns Promise<ResponseObject>
+ */
+export const initUpload = async (req: Request, res: ResponseToolkit) => {
+    try {
+        const tempFileName = uuidv4().replace(/-/g, '_')
+        
+        return res.response({tempFileName}).code(200)
+    } catch (err: any) {
+        console.log(err.message)
+        return res.response('Internal server error!').code(500)
+    }
+}
 
 export const Upload = async (req: Request, res: ResponseToolkit) => {
     try {
-        const { file } = req.payload as { file: HapiFileType }
-        
-        const { videoMetadata, audioMetadata } = await getVideoMetaData(file.path)
+        const {
+            file: chunk,
+            chunkNumber,
+            totalChunks,
+            originalname,
+            serverTempFileName,
+        } = req.payload as {
+            file: any,
+            chunkNumber: number,
+            totalChunks: number,
+            originalname: string
+            serverTempFileName: string
+        }
 
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_144p})
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_240p})
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_360p})
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_480p})
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_720p})
-        await VideoTranscodeQueue({fileName: file.filename, resolution: RESOLUTION_1080p})
+        const basePath = path.resolve('videos')
+        const videoPath = basePath + '/' + serverTempFileName
+        const chunkDir = videoPath + "/chunks" // Directory to save chunks
 
-        await SendEmailQueue({
-            sender: "test@google.com",
-            receivers: ["user1@google.com","user2@google.com","user3@google.com"],
-            message: "This is a test email"
-        })
+        if (!fs.existsSync(chunkDir)) fs.mkdirSync(chunkDir, {recursive: true})
+
+        const chunkFilePath = `${chunkDir}/chunk_${chunkNumber}`
+
+        await fs.promises.writeFile(chunkFilePath, chunk);
+
+        // TODO - We need to save this payload into DB and pass the job id to to the queue
+        if (chunkNumber === totalChunks) await MergeVideoChunkQueue({videoPath, totalChunks, originalname});
         
-        return res.response('Success').code(200)
+        return res.response('Video is uploaded successfully! It will be under review process and you will be notified once it is done.').code(200)
     } catch (err: any) {
         log(err.message)
         return res.response('Internal server error!').code(500)
