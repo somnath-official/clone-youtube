@@ -7,7 +7,8 @@ export type TypeMergeVideoChunkQueue = 'MergeVideoChunk'
 export type QueueTypes = TypeVideoTranscodeQueue | TypeSendEmailQueue | TypeMergeVideoChunkQueue
 
 export interface VideoTranscodePayloadType {
-    fileName: string,
+    fileName: string
+    videoPath: string
     resolution: VideoResolutionTypes
 }
 

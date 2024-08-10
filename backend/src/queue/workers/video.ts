@@ -1,30 +1,9 @@
 import { log } from "../../utils/log"
 import { MergeVideoChunkPayloadType, VideoTranscodePayloadType } from "../../types"
-import { mergeChunks } from "../../utils/video"
+import { initVideoTranscode, mergeChunks } from "../../utils/video"
 
 export const videoTranscode = async (data: VideoTranscodePayloadType) => {
-    switch(data.resolution) {
-        case '144p':
-            log(data.resolution)
-            break
-        case '240p':
-            log(data.resolution)
-            break
-        case '360p':
-            log(data.resolution)
-            break
-        case '480p':
-            log(data.resolution)
-            break
-        case '720p':
-            log(data.resolution)
-            break
-        case '1080p':
-            log(data.resolution)
-            break
-        default:
-            log('Invalid format encode')
-    }
+    await initVideoTranscode(data.videoPath, data.fileName, data.resolution)
 }
 
 export const mergeVideoChunks = async (data: MergeVideoChunkPayloadType) => {
