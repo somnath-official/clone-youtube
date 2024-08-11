@@ -8,12 +8,13 @@ export type QueueTypes = TypeVideoTranscodeQueue | TypeSendEmailQueue | TypeMerg
 
 export interface VideoTranscodePayloadType {
     fileName: string
-    videoPath: string
+    videoDir: string
     resolution: VideoResolutionTypes
 }
 
 export interface MergeVideoChunkPayloadType {
-    videoPath: string
+    chunkDir: string
+    videoDir: string
     totalChunks: number
     originalname: string
 }

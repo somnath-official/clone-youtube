@@ -17,10 +17,7 @@ export const initQueue = async (): Promise<void> => {
             host: REDIS_HOST
         }
     })
-    .on('completed', async (job) => {
-        log(`Job complete! type: ${job.data.type}, queue-id: ${job.id}`)
-        await job.remove()
-    })
+
 
     Queue.process(async (job) => {
         const temp = JOB_LISTS.find(t => t.type === job.data.type)
