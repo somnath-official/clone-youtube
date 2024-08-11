@@ -40,9 +40,9 @@ export const Upload = async (req: Request, res: ResponseToolkit) => {
             serverTempFileName: string
         }
 
-        const basePath = path.resolve('videos')
-        const videoPath = basePath + '/' + serverTempFileName
-        const chunkDir = videoPath + "/chunks" // Directory to save chunks
+        const baseDir = path.resolve('videos')
+        const videoDir = baseDir + '/' + serverTempFileName
+        const chunkDir = videoDir + "/chunks" // Directory to save chunks
 
         if (!fs.existsSync(chunkDir)) fs.mkdirSync(chunkDir, {recursive: true})
 
@@ -52,7 +52,7 @@ export const Upload = async (req: Request, res: ResponseToolkit) => {
 
         // TODO - We need to save this payload into DB and pass the job id to to the queue
         if (chunkNumber === totalChunks) {
-            await MergeVideoChunkQueue({videoPath, totalChunks, originalname})
+            await MergeVideoChunkQueue({videoDir, chunkDir, totalChunks, originalname})
             return res.response({
                 message: 'Video is uploaded successfully! It will be under review process and you will be notified once it is done.'
             }).code(200)
