@@ -1,9 +1,8 @@
-import './App.css'
-import { FileUpload } from './components/FileUpload'
+import { Login } from './pages/auth/Login'
 
 function App() {
   return (
-    <FileUpload />
+    <Login />
   )
 }
 
