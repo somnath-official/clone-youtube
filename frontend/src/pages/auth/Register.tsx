@@ -3,13 +3,14 @@ import EyeOpen from '../../assets/svgs/EyeOpen.svg'
 import EyeClose from '../../assets/svgs/EyeClose.svg'
 import { useRef, useState } from 'react'
 import { IRegisterAuthData } from '../../@types/Auth'
+import { NavLink } from 'react-router-dom'
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [authData, setAuthData] = useState<IRegisterAuthData>({ name: '', email: '', password: '' })
   const [error, setError] = useState('')
   const [isAuthenticating, setIsAuthenticating] = useState(false)
-  
+
   const nameRef = useRef<HTMLInputElement | null>(null)
   const emailRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
@@ -20,7 +21,8 @@ export const Register = () => {
     setAuthData(t)
   }
 
-  const handleAuthAction = () => {
+  const handleAuthAction = (e: React.FormEvent) => {
+    e.preventDefault()
     try {
       setIsAuthenticating(true)
       if (validateAuthData()) {
@@ -75,72 +77,70 @@ export const Register = () => {
               <h2>Sign Up</h2>
             </div>
             <div className='auth-form'>
-              <div className='input-wrapper'>
-                <input
-                  ref={nameRef}
-                  value={authData.name}
-                  type='text'
-                  placeholder='Enter name...'
-                  name='name'
-                  onChange={(e) => {
-                    handleAuthInputChange('name', e.currentTarget.value)
-                  }}
-                />
-              </div>
+              <form onSubmit={handleAuthAction}>
+                <div className='input-wrapper'>
+                  <input
+                    ref={nameRef}
+                    value={authData.name}
+                    type='text'
+                    placeholder='Enter name...'
+                    name='name'
+                    required
+                    onChange={(e) => {
+                      handleAuthInputChange('name', e.currentTarget.value)
+                    }}
+                  />
+                </div>
 
-              <div className='input-wrapper'>
-                <input
-                  ref={emailRef}
-                  value={authData.email}
-                  type='email'
-                  name='email'
-                  placeholder='Enter email...'
-                  onChange={(e) => {
-                    handleAuthInputChange('email', e.currentTarget.value)
-                  }}
-                />
-              </div>
+                <div className='input-wrapper'>
+                  <input
+                    ref={emailRef}
+                    value={authData.email}
+                    type='email'
+                    name='email'
+                    placeholder='Enter email...'
+                    required
+                    onChange={(e) => {
+                      handleAuthInputChange('email', e.currentTarget.value)
+                    }}
+                  />
+                </div>
 
-              <div className='input-wrapper'>
-                <input
-                  value={authData.password}
-                  ref={passwordRef}
-                  data-password
-                  name='password'
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder='Enter password...'
-                  onChange={(e) => {
-                    handleAuthInputChange('password', e.currentTarget.value)
-                  }}
-                />
+                <div className='input-wrapper'>
+                  <input
+                    value={authData.password}
+                    ref={passwordRef}
+                    data-password
+                    name='password'
+                    autoComplete='true'
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder='Enter password...'
+                    required
+                    onChange={(e) => {
+                      handleAuthInputChange('password', e.currentTarget.value)
+                    }}
+                  />
+                  {
+                    !showPassword
+                      ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
+                      : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                  }
+                </div>
+
                 {
-                  !showPassword
-                    ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
-                    : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                  error &&
+                  <p className='auth-error'>* {error}</p>
                 }
-              </div>
 
-              {
-                error &&
-                <p className='auth-error'>* {error}</p>
-              }
+                <button disabled={isAuthenticating}>Create account</button>
 
-              <button
-                onClick={handleAuthAction}
-                disabled={
-                  !authData.name ||
-                  !authData.email ||
-                  !authData.password ||
-                  isAuthenticating
-                }
-              >
-                Create account
-              </button>
-
-              <div className='auth-action'>
-                <p></p>
-                <p>Login instead</p>
-              </div>
+                <div className='auth-action'>
+                  <p></p>
+                  <p>
+                    <NavLink to='/login'>Login instead</NavLink>
+                  </p>
+                </div>
+              </form>
             </div>
           </div>
 

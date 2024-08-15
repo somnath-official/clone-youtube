@@ -1,8 +1,11 @@
-import { Register } from './pages/auth/Register'
+import { BrowserRouter } from 'react-router-dom'
+import { Routes } from './routes'
 
 function App() {
   return (
-    <Register />
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   )
 }
 
