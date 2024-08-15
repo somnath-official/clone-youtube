@@ -4,7 +4,7 @@
     display: grid;
     place-items: center;
 
-    .login-card {
+    .auth-card {
         width: 800px;
         background-color: white;
         border-radius: 16px;
@@ -58,7 +58,7 @@
                 padding: 2rem;
             }
 
-            form {
+            .auth-form {
                 width: 100%;
                 padding: 2rem;
 
@@ -108,10 +108,25 @@
                     margin-bottom: 2rem;
                     margin-top: 0.5rem;
                     transition: box-shadow 0.1s ease;
-                    
+
+                    &:disabled {
+                        opacity: 0.5;
+                        cursor: default;
+
+                        &:hover {
+                            box-shadow: none;
+                        }
+                    }
+
                     &:hover {
                         box-shadow: 2px 2px 8px rgb(4, 0, 255);
                     }
+                }
+
+                .auth-error {
+                    color: red;
+                    font-size: 13px;
+                    margin-bottom: 0.5rem;
                 }
 
                 .auth-action {
