@@ -70,77 +70,84 @@ export const Register = () => {
           </footer>
         </div>
         <div className="right">
-          <div className='form-header'>
-            <h2>Sign Up</h2>
-          </div>
-          <div className='auth-form'>
-            <div className='input-wrapper'>
-              <input
-                ref={nameRef}
-                value={authData.name}
-                type='text'
-                placeholder='Enter name...'
-                name='name'
-                onChange={(e) => {
-                  handleAuthInputChange('name', e.currentTarget.value)
-                }}
-              />
+          <div>
+            <div className='form-header'>
+              <h2>Sign Up</h2>
             </div>
+            <div className='auth-form'>
+              <div className='input-wrapper'>
+                <input
+                  ref={nameRef}
+                  value={authData.name}
+                  type='text'
+                  placeholder='Enter name...'
+                  name='name'
+                  onChange={(e) => {
+                    handleAuthInputChange('name', e.currentTarget.value)
+                  }}
+                />
+              </div>
 
-            <div className='input-wrapper'>
-              <input
-                ref={emailRef}
-                value={authData.email}
-                type='email'
-                name='email'
-                placeholder='Enter email...'
-                onChange={(e) => {
-                  handleAuthInputChange('email', e.currentTarget.value)
-                }}
-              />
-            </div>
+              <div className='input-wrapper'>
+                <input
+                  ref={emailRef}
+                  value={authData.email}
+                  type='email'
+                  name='email'
+                  placeholder='Enter email...'
+                  onChange={(e) => {
+                    handleAuthInputChange('email', e.currentTarget.value)
+                  }}
+                />
+              </div>
 
-            <div className='input-wrapper'>
-              <input
-                value={authData.password}
-                ref={passwordRef}
-                data-password
-                name='password'
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Enter password...'
-                onChange={(e) => {
-                  handleAuthInputChange('password', e.currentTarget.value)
-                }}
-              />
+              <div className='input-wrapper'>
+                <input
+                  value={authData.password}
+                  ref={passwordRef}
+                  data-password
+                  name='password'
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Enter password...'
+                  onChange={(e) => {
+                    handleAuthInputChange('password', e.currentTarget.value)
+                  }}
+                />
+                {
+                  !showPassword
+                    ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
+                    : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                }
+              </div>
+
               {
-                !showPassword
-                  ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
-                  : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                error &&
+                <p className='auth-error'>* {error}</p>
               }
-            </div>
 
-            {
-              error &&
-              <p className='auth-error'>* {error}</p>
-            }
+              <button
+                onClick={handleAuthAction}
+                disabled={
+                  !authData.name ||
+                  !authData.email ||
+                  !authData.password ||
+                  isAuthenticating
+                }
+              >
+                Create account
+              </button>
 
-            <button
-              onClick={handleAuthAction}
-              disabled={
-                !authData.name ||
-                !authData.email ||
-                !authData.password ||
-                isAuthenticating
-              }
-            >
-              Create account
-            </button>
-
-            <div className='auth-action'>
-              <p></p>
-              <p>Login instead</p>
+              <div className='auth-action'>
+                <p></p>
+                <p>Login instead</p>
+              </div>
             </div>
           </div>
+
+          <footer>
+            <span className='copyright-text'>Copyright @ 2024</span>
+            <img src={Logo} />
+          </footer>
         </div>
       </div>
     </div>

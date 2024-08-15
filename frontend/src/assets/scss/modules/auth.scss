@@ -53,6 +53,8 @@
 
         .right {
             background-image: linear-gradient(164deg, #ddbe8d, transparent);
+            display: flex;
+            flex-direction: column;
 
             .form-header {
                 display: flex;
@@ -154,6 +156,48 @@
                     span {
                         cursor: pointer;
                     }
+                }
+            }
+
+            footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px 1rem;
+                display: none;
+
+                .copyright-text {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                }
+
+                img {
+                    width: 40px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .auth-container {
+        .auth-card {
+            grid-template-columns: 1fr;
+            width: 95%;
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                justify-content: space-around;
+
+                .form-header {
+                    justify-content: center;
+                }
+                
+                footer {
+                    display: flex;
                 }
             }
         }

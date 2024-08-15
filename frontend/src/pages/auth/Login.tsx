@@ -63,57 +63,64 @@ export const Login = () => {
                     </footer>
                 </div>
                 <div className="right">
-                    <div className="form-header">
-                        <h2>Sign In</h2>
-                    </div>
-                    <div className='auth-form'>
-                        <div className='input-wrapper'>
-                            <input
-                                type='email'
-                                ref={emailRef}
-                                value={authData.email}
-                                placeholder='Enter email...'
-                                onChange={(e) => handleAuthInputChange('email', e.currentTarget.value)}
-                            />
+                    <div>
+                        <div className="form-header">
+                            <h2>Sign In</h2>
                         </div>
+                        <div className='auth-form'>
+                            <div className='input-wrapper'>
+                                <input
+                                    type='email'
+                                    ref={emailRef}
+                                    value={authData.email}
+                                    placeholder='Enter email...'
+                                    onChange={(e) => handleAuthInputChange('email', e.currentTarget.value)}
+                                />
+                            </div>
 
-                        <div className='input-wrapper'>
-                            <input
-                                value={authData.password}
-                                ref={passwordRef}
-                                data-password
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder='Enter password...'
-                                onChange={(e) => handleAuthInputChange('password', e.currentTarget.value)}
-                            />
+                            <div className='input-wrapper'>
+                                <input
+                                    value={authData.password}
+                                    ref={passwordRef}
+                                    data-password
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder='Enter password...'
+                                    onChange={(e) => handleAuthInputChange('password', e.currentTarget.value)}
+                                />
+                                {
+                                    !showPassword
+                                        ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
+                                        : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                                }
+                            </div>
+
                             {
-                                !showPassword
-                                    ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
-                                    : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                                error &&
+                                <p className='auth-error'>* {error}</p>
                             }
-                        </div>
 
-                        {
-                            error &&
-                            <p className='auth-error'>* {error}</p>
-                        }
+                            <button
+                                onClick={handleAuthAction}
+                                disabled={
+                                    !authData.email ||
+                                    !authData.password ||
+                                    isAuthenticating
+                                }
+                            >
+                                Sign In
+                            </button>
 
-                        <button
-                            onClick={handleAuthAction}
-                            disabled={
-                                !authData.email ||
-                                !authData.password ||
-                                isAuthenticating
-                            }
-                        >
-                            Sign In
-                        </button>
-
-                        <div className='auth-action'>
-                            <p>Forgot Password ?</p>
-                            <p>Create account</p>
+                            <div className='auth-action'>
+                                <p>Forgot Password ?</p>
+                                <p>Create account</p>
+                            </div>
                         </div>
                     </div>
+
+                    <footer>
+                        <span className='copyright-text'>Copyright @ 2024</span>
+                        <img src={Logo} />
+                    </footer>
                 </div>
             </div>
         </div>
