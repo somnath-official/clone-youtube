@@ -80,6 +80,7 @@ export const Register = () => {
                 value={authData.name}
                 type='text'
                 placeholder='Enter name...'
+                name='name'
                 onChange={(e) => {
                   handleAuthInputChange('name', e.currentTarget.value)
                 }}
@@ -91,6 +92,7 @@ export const Register = () => {
                 ref={emailRef}
                 value={authData.email}
                 type='email'
+                name='email'
                 placeholder='Enter email...'
                 onChange={(e) => {
                   handleAuthInputChange('email', e.currentTarget.value)
@@ -103,6 +105,7 @@ export const Register = () => {
                 value={authData.password}
                 ref={passwordRef}
                 data-password
+                name='password'
                 type={showPassword ? 'text' : 'password'}
                 placeholder='Enter password...'
                 onChange={(e) => {
