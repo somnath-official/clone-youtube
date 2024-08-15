@@ -1,4 +1,10 @@
 export interface ILoginAuthData {
-    username: string
+    email: string
+    password: string
+}
+
+export interface IRegisterAuthData {
+    name: string
+    email: string
     password: string
 }

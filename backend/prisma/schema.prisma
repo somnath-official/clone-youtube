@@ -18,13 +18,15 @@ model User {
 
   name      String
   email     String  @unique
-  dob       String
-  gender    String
-  avatar    String
-  is_active Boolean
-
-  username String @unique
   password String
+  
+  dob       String  @default("")
+  gender    String  @default("")
+  avatar    String  @default("")
+  is_active Boolean @default(true)
+  is_verified Boolean @default(false)
+  
+  username String @unique
 
   Videos Video[]
 

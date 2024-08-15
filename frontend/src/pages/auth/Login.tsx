@@ -6,16 +6,14 @@ import { ILoginAuthData } from '../../@types/Auth'
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
-    const [authData, setAuthData] = useState<ILoginAuthData>({
-        username: '',
-        password: ''
-    })
-    const [error, setErro] = useState('')
-    const userNameRef = useRef<HTMLInputElement | null>(null)
-    const passwordRef = useRef<HTMLInputElement | null>(null)
+    const [authData, setAuthData] = useState<ILoginAuthData>({ email: '', password: '' })
+    const [error, setError] = useState('')
     const [isAuthenticating, setIsAuthenticating] = useState(false)
 
-    const handleAuthInputChange = (name: 'username' | 'password', value: string) => {
+    const emailRef = useRef<HTMLInputElement | null>(null)
+    const passwordRef = useRef<HTMLInputElement | null>(null)
+
+    const handleAuthInputChange = (name: 'email' | 'password', value: string) => {
         const t: ILoginAuthData = JSON.parse(JSON.stringify(authData))
         t[name] = value
         setAuthData(t)
@@ -35,19 +33,19 @@ export const Login = () => {
     }
 
     const validateAuthData = (): boolean => {
-        if (!authData.username) {
-            setErro('Missing username or email')
-            userNameRef.current?.focus()
+        if (!authData.email) {
+            setError('Missing email')
+            emailRef.current?.focus()
             return false
         }
 
         if (!authData.password) {
-            setErro('Missing password')
+            setError('Missing password')
             passwordRef.current?.focus()
             return false
         }
 
-        setErro('')
+        setError('')
         return true
     }
 
@@ -56,7 +54,7 @@ export const Login = () => {
             <div className="auth-card">
                 <div className="left">
                     <div className='platform-info'>
-                        <h2>Welcome to YouTube</h2>
+                        <h2>Welcome to PlayTube</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora voluptates alias, eius totam aspernatur fugiat dolores, sed blanditiis facilis nesciunt explicabo similique corrupti quidem earum quia. Cum reiciendis pariatur delectus!</p>
                     </div>
                     <footer>
@@ -65,17 +63,17 @@ export const Login = () => {
                     </footer>
                 </div>
                 <div className="right">
-                    <h2>Sign In</h2>
+                    <div className="form-header">
+                        <h2>Sign In</h2>
+                    </div>
                     <div className='auth-form'>
                         <div className='input-wrapper'>
                             <input
-                                type='text'
-                                ref={userNameRef}
-                                value={authData.username}
-                                placeholder='Username or Email'
-                                onChange={(e) => {
-                                    handleAuthInputChange('username', e.currentTarget.value)
-                                }}
+                                type='email'
+                                ref={emailRef}
+                                value={authData.email}
+                                placeholder='Enter email...'
+                                onChange={(e) => handleAuthInputChange('email', e.currentTarget.value)}
                             />
                         </div>
 
@@ -85,15 +83,13 @@ export const Login = () => {
                                 ref={passwordRef}
                                 data-password
                                 type={showPassword ? 'text' : 'password'}
-                                placeholder='Password'
-                                onChange={(e) => {
-                                    handleAuthInputChange('password', e.currentTarget.value)
-                                }}
+                                placeholder='Enter password...'
+                                onChange={(e) => handleAuthInputChange('password', e.currentTarget.value)}
                             />
                             {
                                 !showPassword
-                                ?   <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
-                                :   <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
+                                    ? <img className='password-visibility' src={EyeClose} onClick={() => setShowPassword(true)} />
+                                    : <img className='password-visibility' src={EyeOpen} onClick={() => setShowPassword(false)} />
                             }
                         </div>
 
@@ -105,17 +101,17 @@ export const Login = () => {
                         <button
                             onClick={handleAuthAction}
                             disabled={
-                                !authData.username ||
+                                !authData.email ||
                                 !authData.password ||
                                 isAuthenticating
                             }
                         >
                             Sign In
                         </button>
-                        
+
                         <div className='auth-action'>
+                            <p>Forgot Password ?</p>
                             <p>Create account</p>
-                            <p>Forgot Password</p>
                         </div>
                     </div>
                 </div>

@@ -54,8 +54,14 @@
         .right {
             background-image: linear-gradient(164deg, #ddbe8d, transparent);
 
-            h2 {
-                padding: 2rem;
+            .form-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                h2 {
+                    padding: 2rem;
+                }
             }
 
             .auth-form {
@@ -69,7 +75,7 @@
                     input {
                         width: 100%;
                         margin: 0px;
-                        padding: 1rem;
+                        padding: 0.7rem 1rem;
                         outline: none;
                         border-radius: 2rem;
                         border: 1px solid rgb(197, 198, 250);
