@@ -36,15 +36,11 @@ export const Login = () => {
                                 }
                             </div>
 
+                            <button>Sign In</button>
+                            
                             <div className='auth-action'>
-                                <a href='#' className='create-account'>
-                                    <p>Create account</p>
-                                </a>
-                                <button>Sign In</button>
-                            </div>
-
-                            <div className='forgot-password'>
-                                <span>Forgot Password</span>
+                                <p>Create account</p>
+                                <p>Forgot Password</p>
                             </div>
                         </div>
                     </form>

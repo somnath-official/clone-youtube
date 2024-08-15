@@ -95,31 +95,33 @@
                     }
                 }
 
+                button {
+                    padding: 0.5rem 1rem;
+                    background-color: rgb(38, 38, 243);
+                    color: white;
+                    font-weight: 600;
+                    border-radius: 2rem;
+                    border: none;
+                    cursor: pointer;
+                    outline: none;
+                    width: 100%;
+                    margin-bottom: 2rem;
+                    margin-top: 0.5rem;
+                    transition: box-shadow 0.1s ease;
+                    
+                    &:hover {
+                        box-shadow: 2px 2px 8px rgb(4, 0, 255);
+                    }
+                }
+
                 .auth-action {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
 
-                    a.create-account {
-                        text-decoration: none;
-                        text-align: center;
-                        color: black;
-
-                        p {
-                            font-size: 13px;
-                        }
-                    }
-
-                    button {
-                        padding: 0.5rem 1rem;
-                        background-color: rgb(38, 38, 243);
-                        color: white;
-                        font-weight: 600;
-                        border-radius: 2rem;
-                        border: none;
+                    p {
+                        font-size: 13px;
                         cursor: pointer;
-                        outline: none;
-                        box-shadow: 2px 2px 8px rgb(4, 0, 255);
                     }
                 }
 
