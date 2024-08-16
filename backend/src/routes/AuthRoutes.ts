@@ -2,7 +2,7 @@ import { ServerRoute } from "@hapi/hapi";
 import Joi from "joi";
 import { login } from "../controllers/AuthController";
 
-const TAGS = ['Api', 'Auth']
+const TAGS = ['api', 'Auth']
 
 export const AuthRoutes: ServerRoute[] = [
     {
