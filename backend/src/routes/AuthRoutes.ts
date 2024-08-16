@@ -1,7 +1,6 @@
 import { ServerRoute } from "@hapi/hapi";
 import Joi from "joi";
-import { login } from "../controllers/AuthController";
-import { register } from "module";
+import { login, register } from "../controllers/AuthController";
 
 const TAGS = ['api', 'Auth']
 
