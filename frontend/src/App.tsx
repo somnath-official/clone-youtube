@@ -1,9 +1,14 @@
-import './App.css'
-import { FileUpload } from './components/FileUpload'
+import { BrowserRouter } from 'react-router-dom'
+import { Routes } from './routes'
+import AuthProvider from './contexts/AuthContext'
 
 function App() {
   return (
-    <FileUpload />
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
