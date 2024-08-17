@@ -10,7 +10,31 @@ const {
 
 export const login = async (req: Request, res: ResponseToolkit) => {
     try {
-        return res.response('Success').code(200)
+        const { email, password } = req.payload as { email: string, password: string }
+
+        const user = await User.findFirst({
+            where: { email },
+            select: { id: true, password: true }
+        })
+
+        if (!user) return Boom.badData('Invalid email or password!')
+
+        const match = await bcrypt.compare(password, user.password)
+
+        if (!match) return Boom.badData('Invalid email or password!')
+        
+        // Create tokens
+        const accessToken = generateToken({ userId: user.id })
+        const refreshToken = generateRefreshToken({ userId: user.id })
+
+        // Setting cookie for refreshToken
+        res.state('refreshToken', refreshToken, {
+            ttl: 15 * 24 * 60 * 60 * 1000,      // 15days
+            isSecure: true,
+            isHttpOnly: true,
+        })
+
+        return res.response({ accessToken }).code(200)
     } catch (err: any) {
         console.log(err.message)
         return res.response('Internal server error!').code(500)
@@ -29,7 +53,7 @@ export const register = async (req: Request, res: ResponseToolkit) => {
         if (existingUser) return Boom.badData('Email already exists!')
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = await User.create({
+        const user = await User.create({
             data: {
                 name,
                 email,
@@ -42,8 +66,8 @@ export const register = async (req: Request, res: ResponseToolkit) => {
         })
 
         // Create tokens
-        const accessToken = generateToken({ userId: newUser.id })
-        const refreshToken = generateRefreshToken({ userId: newUser.id })
+        const accessToken = generateToken({ userId: user.id })
+        const refreshToken = generateRefreshToken({ userId: user.id })
 
         // Setting cookie for refreshToken
         res.state('refreshToken', refreshToken, {
