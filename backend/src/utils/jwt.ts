@@ -6,7 +6,7 @@ config()
 
 export const generateToken = ({ userId }: { userId: number }): string => {
     const token = jwt.sign(
-        { userId },
+        { userId, type: 'accessToken' },
         TOKEN_CONFIG.key,
         {
             expiresIn: TOKEN_CONFIG.expirationTime.token
@@ -16,11 +16,9 @@ export const generateToken = ({ userId }: { userId: number }): string => {
     return token
 }
 
-export const generateRefreshToken = ({ accessToken }: { accessToken: string }): string => {
-    const decoded = jwt.decode(accessToken) as jwt.JwtPayload
-    console.log(decoded)
+export const generateRefreshToken = ({ userId }: { userId: number }): string => {
     const refreshToken = jwt.sign(
-        { userId: decoded.userId },
+        { userId, type: 'refreshToken' },
         TOKEN_CONFIG.key,
         {
             expiresIn: TOKEN_CONFIG.expirationTime.refreshToken
