@@ -10,6 +10,7 @@ export const AuthRoutes: ServerRoute[] = [
         path: '/auth/register',
         options: {
             tags: TAGS,
+            auth: false,
             handler: register,
             validate: {
                 payload: Joi.object({
@@ -25,6 +26,7 @@ export const AuthRoutes: ServerRoute[] = [
         path: '/auth/login',
         options: {
             tags: TAGS,
+            auth: false,
             handler: login,
             validate: {
                 payload: Joi.object({

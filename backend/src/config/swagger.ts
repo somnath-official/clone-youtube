@@ -1,4 +1,4 @@
-export const swaggerOptions = {
+export const SWAGGER_OPTIONS = {
     info: {
         title: 'PlayTube API documentation',
     },
