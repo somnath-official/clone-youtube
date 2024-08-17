@@ -1,6 +1,6 @@
 import { ServerRoute } from "@hapi/hapi";
 import Joi from "joi";
-import { login, register } from "../controllers/AuthController";
+import { getUser, login, register } from "../controllers/AuthController";
 
 const TAGS = ['api', 'Auth']
 
@@ -34,6 +34,14 @@ export const AuthRoutes: ServerRoute[] = [
                     password: Joi.string().required().min(8),
                 })
             },
+        },
+    },
+    {
+        method: 'GET',
+        path: '/auth/user',
+        options: {
+            tags: TAGS,
+            handler: getUser,
         },
     }
 ]

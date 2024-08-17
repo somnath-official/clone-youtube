@@ -82,3 +82,13 @@ export const register = async (req: Request, res: ResponseToolkit) => {
         return res.response('Internal server error!').code(500)
     }
 }
+
+export const getUser = async (req: Request, res: ResponseToolkit) => {
+    try {
+        const user = req.auth.credentials.user
+        return res.response(user).code(200)
+    } catch (err: any) {
+        console.log(err.message)
+        return res.response('Internal server error!').code(500)
+    }
+}

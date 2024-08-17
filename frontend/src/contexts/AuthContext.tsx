@@ -1,6 +1,8 @@
-import { createContext, useState, ReactElement } from "react";
+import { createContext, useState, ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IAuthContext, ILoginAuthData } from "../@types/Auth";
+import { API_ROUTES } from "../apis";
+import { axiosService } from "../utils/axiosService";
 
 export const AuthContext = createContext<IAuthContext>({
   user: null,
@@ -14,23 +16,27 @@ const AuthProvider = ({ children }: { children: ReactElement | null }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const getUser = async () => {
+      console.log('Called')
+      const res = (await axiosService.get(API_ROUTES.auth.user)).data
+      console.log(res)
+    }
+
+    if (token && !user) getUser()
+  }, [token, user])
+
   const login = async (data: ILoginAuthData) => {
     try {
-      const response = await fetch("", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
-        setToken(res.token);
-        localStorage.setItem("token", res.token);
-        navigate("/dashboard", { replace: true });
-        return;
+      const res = (await axiosService.post(API_ROUTES.auth.login, data)).data
+      
+      if (res) {
+        setToken(res.accessToken)
+        localStorage.setItem("token", res.accessToken)
+        navigate("/dashboard", { replace: true })
+        return
       }
+      
       throw new Error(res.message);
     } catch (err) {
       console.error(err);

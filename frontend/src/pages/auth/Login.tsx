@@ -4,12 +4,14 @@ import EyeClose from '../../assets/svgs/EyeClose.svg'
 import { useRef, useState } from 'react'
 import { ILoginAuthData } from '../../@types/Auth'
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [authData, setAuthData] = useState<ILoginAuthData>({ email: '', password: '' })
     const [error, setError] = useState('')
     const [isAuthenticating, setIsAuthenticating] = useState(false)
+    const { login } = useAuth()
 
     const emailRef = useRef<HTMLInputElement | null>(null)
     const passwordRef = useRef<HTMLInputElement | null>(null)
@@ -20,12 +22,13 @@ export const Login = () => {
         setAuthData(t)
     }
 
-    const handleAuthAction = (e: React.FormEvent) => {
+    const handleAuthAction = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
             setIsAuthenticating(true)
             if (validateAuthData()) {
                 console.log(authData)
+                await login(authData)
             }
         } catch (err) {
             console.log(err)

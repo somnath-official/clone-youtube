@@ -1,10 +1,13 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_API
-
 export const API_ROUTES = {
+    auth: {
+        user: `/auth/user`,
+        login: `/auth/login`,
+        register: `/auth/register`,
+    },
     POST: {
         video: {
-            initUpload: () => `${BASE_URL}/video/upload/init`,
-            upload: () => `${BASE_URL}/video/upload`
+            initUpload: () => `/video/upload/init`,
+            upload: () => `/video/upload`
         }
     }
 }

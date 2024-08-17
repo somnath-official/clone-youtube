@@ -1,5 +1,5 @@
 import Hapi from "@hapi/hapi"
-import { jwtScheme } from "../schemes/AuthScheme"
+import { jwtScheme } from "../middlewares/AuthMiddleware"
 
 export const customJwtPlugin = {
     name: 'jwtPlugin',
