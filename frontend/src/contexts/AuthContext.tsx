@@ -3,6 +3,7 @@ import { IAuthContext, ILoginAuthData } from "../interfaces/Auth";
 import { IUser } from "../interfaces/User";
 import { axiosService } from "../utils/axiosService";
 import { API_ROUTES } from "../apis";
+import { AxiosError } from "axios";
 
 export const AuthContext = createContext<IAuthContext | null>(null)
 
@@ -22,14 +23,12 @@ export const AuthProvider = ({ children }: { children: React.ReactElement }) => 
 
             if (token) {
                 const user = (await axiosService.get(API_ROUTES.auth.user)).data
-                console.log(user)
                 setIsLoggedIn(true)
                 setUser(user)
             }
         } catch (err) {
             setIsLoggedIn(false)
             setUser(null)
-            console.log(err)
         } finally {
             setIsLoadingAuth(false)
         }
@@ -43,7 +42,10 @@ export const AuthProvider = ({ children }: { children: React.ReactElement }) => 
             setIsLoggedIn(true)
             setUser(user)
         } catch (err) {
-            console.log(err)
+            setIsLoggedIn(false)
+            setUser(null)
+            if(err instanceof AxiosError) throw new Error(err.response?.data.message)
+            else throw new Error('Something went wrong!')
         }
     }
 

@@ -32,7 +32,7 @@ export const Login = () => {
         navigate('/', { replace: true })
       }
     } catch (err) {
-      console.log(err)
+      if (err instanceof Error) setError(err.message)
     } finally {
       setIsAuthenticating(false)
     }

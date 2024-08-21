@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import { config } from 'dotenv';
 import Boom from '@hapi/boom';
 import { PrismaClient } from '@prisma/client';
+import { log } from '../utils/log';
 
 config()
 
@@ -16,7 +17,7 @@ export const jwtScheme = (server: Hapi.Server<Hapi.ServerApplicationState>) => {
             const req = request.raw.req;
             let token = req.headers.authorization;
 
-            if (!token) return h.unauthenticated(new Error('Missing auth token'))
+            if (!token) return Boom.unauthorized('Authentication failed')
 
             token = token.replace(/Bearer /g, '')
             
@@ -37,8 +38,8 @@ export const jwtScheme = (server: Hapi.Server<Hapi.ServerApplicationState>) => {
                 if (user) return h.authenticated({ credentials: {...decoded, user} })
                 
                 return h.authenticated({ credentials: decoded })
-            } catch (err) {
-                console.log(err)
+            } catch (err: any) {
+                log(err.message)
                 return Boom.unauthorized('Authentication failed')
             }
         }
