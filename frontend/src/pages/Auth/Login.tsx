@@ -2,31 +2,34 @@ import Logo from '../../assets/svgs/Logo.svg'
 import EyeOpen from '../../assets/svgs/EyeOpen.svg'
 import EyeClose from '../../assets/svgs/EyeClose.svg'
 import { useRef, useState } from 'react'
-import { IRegisterAuthData } from '../../@types/Auth'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { ILoginAuthData } from '../../interfaces/Auth'
+import { useAuth } from '../../hooks/useAuth'
 
-export const Register = () => {
+export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const [authData, setAuthData] = useState<IRegisterAuthData>({ name: '', email: '', password: '' })
+  const [authData, setAuthData] = useState<ILoginAuthData>({ email: 'test+1@example.com', password: '8khiuhiiojo8908' })
   const [error, setError] = useState('')
   const [isAuthenticating, setIsAuthenticating] = useState(false)
+  const { signIn } = useAuth()
+  const navigate = useNavigate()
 
-  const nameRef = useRef<HTMLInputElement | null>(null)
   const emailRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
 
-  const handleAuthInputChange = (name: 'name' | 'email' | 'password', value: string) => {
-    const t: IRegisterAuthData = JSON.parse(JSON.stringify(authData))
+  const handleAuthInputChange = (name: 'email' | 'password', value: string) => {
+    const t: ILoginAuthData = JSON.parse(JSON.stringify(authData))
     t[name] = value
     setAuthData(t)
   }
 
-  const handleAuthAction = (e: React.FormEvent) => {
+  const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       setIsAuthenticating(true)
-      if (validateAuthData()) {
-        console.log(authData)
+      if (validateAuthData() && signIn) {
+        await signIn(authData)
+        navigate('/', { replace: true })
       }
     } catch (err) {
       console.log(err)
@@ -36,12 +39,6 @@ export const Register = () => {
   }
 
   const validateAuthData = (): boolean => {
-    if (!authData.name) {
-      setError('Missing name')
-      nameRef.current?.focus()
-      return false
-    }
-
     if (!authData.email) {
       setError('Missing email')
       emailRef.current?.focus()
@@ -73,36 +70,20 @@ export const Register = () => {
         </div>
         <div className="right">
           <div>
-            <div className='form-header'>
-              <h2>Sign Up</h2>
+            <div className="form-header">
+              <h2>Sign In</h2>
             </div>
             <div className='auth-form'>
               <form onSubmit={handleAuthAction}>
                 <div className='input-wrapper'>
                   <input
-                    ref={nameRef}
-                    value={authData.name}
-                    type='text'
-                    placeholder='Enter name...'
-                    name='name'
-                    required
-                    onChange={(e) => {
-                      handleAuthInputChange('name', e.currentTarget.value)
-                    }}
-                  />
-                </div>
-
-                <div className='input-wrapper'>
-                  <input
+                    type='email'
                     ref={emailRef}
                     value={authData.email}
-                    type='email'
-                    name='email'
                     placeholder='Enter email...'
+                    autoFocus
                     required
-                    onChange={(e) => {
-                      handleAuthInputChange('email', e.currentTarget.value)
-                    }}
+                    onChange={(e) => handleAuthInputChange('email', e.currentTarget.value)}
                   />
                 </div>
 
@@ -111,14 +92,12 @@ export const Register = () => {
                     value={authData.password}
                     ref={passwordRef}
                     data-password
-                    name='password'
                     autoComplete='true'
+                    required
                     type={showPassword ? 'text' : 'password'}
                     placeholder='Enter password...'
-                    required
-                    onChange={(e) => {
-                      handleAuthInputChange('password', e.currentTarget.value)
-                    }}
+                    onChange={(e) => handleAuthInputChange('password', e.currentTarget.value)}
+                    minLength={8}
                   />
                   {
                     !showPassword
@@ -132,12 +111,12 @@ export const Register = () => {
                   <p className='auth-error'>* {error}</p>
                 }
 
-                <button disabled={isAuthenticating}>Create account</button>
+                <button disabled={isAuthenticating}>Sign In</button>
 
                 <div className='auth-action'>
-                  <p></p>
+                  <p>Forgot Password ?</p>
                   <p>
-                    <NavLink to='/login'>Login instead</NavLink>
+                    <NavLink to='/register'>Create account</NavLink>
                   </p>
                 </div>
               </form>

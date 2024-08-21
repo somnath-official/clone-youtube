@@ -1,10 +1,12 @@
 import { useRoutes } from 'react-router-dom'
-import { WithAuthRoutes } from './WithAuthRoutes'
-import { WithoutAuthRoutes } from './WithoutAuthRoutes'
+import { PublicRoutes } from './PublicRoutes'
+import { ProtectedRoutes } from './ProtectedRoutes'
+import { AuthRoutes } from './AuthRoutes'
 
 export const Routes = () => {
     return useRoutes([
-        WithoutAuthRoutes,
-        WithAuthRoutes,
+        PublicRoutes,
+        ProtectedRoutes,
+        AuthRoutes,
     ])
 }

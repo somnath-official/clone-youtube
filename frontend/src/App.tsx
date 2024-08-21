@@ -1,14 +1,11 @@
-import { BrowserRouter } from 'react-router-dom'
+import { useAuth } from './hooks/useAuth'
 import { Routes } from './routes'
-import AuthProvider from './contexts/AuthContext'
 
 function App() {
+  const { isLoadingAuth } = useAuth()
+
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
-    </BrowserRouter>
+    isLoadingAuth ? 'Loading...' : <Routes />
   )
 }
 

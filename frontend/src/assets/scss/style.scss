@@ -1,11 +1,19 @@
 * {
-    box-sizing: border-box;
-    padding: 0px;
     margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-@import url('./modules/auth.scss')
+main {
+    background-color: #0000001f;
+    min-height: calc(100dvh - 86px)
+}
+
+@import url('./modules/Home.scss');
+@import url('./modules/Header.scss');
+@import url('./modules/Profile.scss');
+@import url('./modules/Auth.scss');
