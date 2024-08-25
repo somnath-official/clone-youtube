@@ -49,6 +49,15 @@ export const AuthProvider = ({ children }: { children: React.ReactElement }) => 
         }
     }
 
+    const logOut = (): Promise<boolean> => {
+        return new Promise((resolve) => {
+            localStorage.removeItem('token')
+            setIsLoggedIn(false)
+            setUser(null)
+            resolve(true)
+        })
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -56,6 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactElement }) => 
                 isLoggedIn,
                 user,
                 signIn,
+                logOut,
             }}
         >
             {children}
