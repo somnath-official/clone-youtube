@@ -8,7 +8,7 @@ export const AuthGuard = ({ children }: {children: ReactElement | null}) => {
     const location = useLocation()
 
     useEffect(() => {
-        if (!isLoggedIn) navigate('/login', { replace: true, state: {prevRoute: location.pathname} })
-    }, [isLoggedIn, location.pathname, navigate])
+        if (!isLoggedIn) navigate('/login', { replace: true, state: {redirectFrom: location} })
+    }, [isLoggedIn, location, navigate])
     return (children)
 }
