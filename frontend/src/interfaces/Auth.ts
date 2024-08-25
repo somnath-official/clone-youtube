@@ -1,8 +1,10 @@
+import { IUser } from "./User"
+
 export interface IAuthContext {
-    user: null
-    token: string
-    login: (data: ILoginAuthData) => Promise<void>
-    logout: () => void
+    isLoadingAuth: boolean
+    isLoggedIn: boolean
+    user: IUser | null
+    signIn: (payload: ILoginAuthData) => Promise<void>
 }
 
 export interface ILoginAuthData {

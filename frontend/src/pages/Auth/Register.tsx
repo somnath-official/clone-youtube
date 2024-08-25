@@ -2,8 +2,8 @@ import Logo from '../../assets/svgs/Logo.svg'
 import EyeOpen from '../../assets/svgs/EyeOpen.svg'
 import EyeClose from '../../assets/svgs/EyeClose.svg'
 import { useRef, useState } from 'react'
-import { IRegisterAuthData } from '../../@types/Auth'
 import { NavLink } from 'react-router-dom'
+import { IRegisterAuthData } from '../../interfaces/Auth'
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -86,9 +86,8 @@ export const Register = () => {
                     placeholder='Enter name...'
                     name='name'
                     required
-                    onChange={(e) => {
-                      handleAuthInputChange('name', e.currentTarget.value)
-                    }}
+                    autoFocus
+                    onChange={(e) => { handleAuthInputChange('name', e.currentTarget.value) }}
                   />
                 </div>
 
@@ -100,9 +99,8 @@ export const Register = () => {
                     name='email'
                     placeholder='Enter email...'
                     required
-                    onChange={(e) => {
-                      handleAuthInputChange('email', e.currentTarget.value)
-                    }}
+                    onChange={(e) => { handleAuthInputChange('email', e.currentTarget.value) }}
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                   />
                 </div>
 
@@ -116,9 +114,8 @@ export const Register = () => {
                     type={showPassword ? 'text' : 'password'}
                     placeholder='Enter password...'
                     required
-                    onChange={(e) => {
-                      handleAuthInputChange('password', e.currentTarget.value)
-                    }}
+                    onChange={(e) => { handleAuthInputChange('password', e.currentTarget.value) }}
+                    minLength={8}
                   />
                   {
                     !showPassword

@@ -1,62 +1,64 @@
-import { createContext, useState, ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
-import { IAuthContext, ILoginAuthData } from "../@types/Auth";
+import { createContext, useEffect, useState } from "react";
+import { IAuthContext, ILoginAuthData } from "../interfaces/Auth";
+import { IUser } from "../interfaces/User";
+import { axiosService } from "../utils/axiosService";
+import { API_ROUTES } from "../apis";
+import { AxiosError } from "axios";
 
-export const AuthContext = createContext<IAuthContext>({
-  user: null,
-  token: '',
-  login: async () => { },
-  logout: async () => { },
-})
+export const AuthContext = createContext<IAuthContext | null>(null)
 
-const AuthProvider = ({ children }: { children: ReactElement | null }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const navigate = useNavigate();
+export const AuthProvider = ({ children }: { children: React.ReactElement }) => {
+    const [isLoadingAuth, setIsLoadingAuth] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [user, setUser] = useState<IUser | null>(null)
 
-  const login = async (data: ILoginAuthData) => {
-    try {
-      const response = await fetch("", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
-        setToken(res.token);
-        localStorage.setItem("token", res.token);
-        navigate("/dashboard", { replace: true });
-        return;
-      }
-      throw new Error(res.message);
-    } catch (err) {
-      console.error(err);
+    useEffect(() => {
+        checkAuth()
+    }, [])
+
+    const checkAuth = async () => {
+        try {
+            setIsLoadingAuth(true)
+            const token = localStorage.getItem('token')
+
+            if (token) {
+                const user = (await axiosService.get(API_ROUTES.auth.user)).data
+                setIsLoggedIn(true)
+                setUser(user)
+            }
+        } catch (err) {
+            setIsLoggedIn(false)
+            setUser(null)
+        } finally {
+            setIsLoadingAuth(false)
+        }
     }
-  };
 
-  const logout = () => {
-    setUser(null);
-    setToken("");
-    localStorage.removeItem("token");
-    navigate("/login", { replace: true });
-  };
+    const signIn = async (payload: ILoginAuthData) => {
+        try {
+            const res = (await axiosService.post(API_ROUTES.auth.login, payload)).data
+            localStorage.setItem('token', res.accessToken)
+            const user = (await axiosService.get(API_ROUTES.auth.user)).data
+            setIsLoggedIn(true)
+            setUser(user)
+        } catch (err) {
+            setIsLoggedIn(false)
+            setUser(null)
+            if(err instanceof AxiosError) throw new Error(err.response?.data.message)
+            else throw new Error('Something went wrong!')
+        }
+    }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        token,
-        user,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-
-};
-
-export default AuthProvider
+    return (
+        <AuthContext.Provider
+            value={{
+                isLoadingAuth,
+                isLoggedIn,
+                user,
+                signIn,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    )
+}

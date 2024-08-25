@@ -2,7 +2,7 @@ import { ServerRoute } from "@hapi/hapi";
 import { initUpload, Upload } from "../controllers/VideoController";
 import Joi from "joi";
 
-const TAGS = ['Api', 'Videos']
+const TAGS = ['api', 'Videos']
 
 export const videoRoutes: ServerRoute[] = [
     {

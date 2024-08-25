@@ -8,8 +8,7 @@ export const SERVER_OPTIONS: Hapi.ServerOptions = {
     port: process.env.PORT || 8000,
     routes: {
         cors: {
-            origin: process.env.ORIGIN ? [process.env.ORIGIN] : '*',
-            headers: ["Accept", "Content-Type"],
+            origin: process.env.ORIGIN ? [process.env.ORIGIN] : ['*'],
         },
         validate: {
             failAction: async (req, res, err) => {

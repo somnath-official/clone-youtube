@@ -1,0 +1,50 @@
+header.heading {
+    padding: 2rem;
+    background-color: black;
+
+    nav.heading-wrapper {
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+        }
+        
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+    
+            li {
+                cursor: pointer;
+    
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                    padding-bottom: 4px;
+                    transition: color 0.2s ease;
+
+                    &:hover {
+                        color: rgb(150, 150, 150);
+                        transition: color 0.2s ease;
+                    }
+    
+                    &.active {
+                        transition: border-bottom 0.5s ease;
+                        border-bottom: 1px solid red;
+
+                        &:hover {
+                            color: white;
+                            transition: color 0.2s ease;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
