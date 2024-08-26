@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios"
-const BASE_URL = import.meta.env.VITE_BACKEND_API
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios"
+import { BASE_URL } from "../apis"
 
 export const axiosService = axios.create({
     baseURL: BASE_URL,
@@ -7,19 +7,38 @@ export const axiosService = axios.create({
 
 axiosService.interceptors.request.use(function (config) {
     const token = localStorage.getItem('token')
-    if (token) config.headers['Authorization'] = `Bearer ${token}`
+    if (token && !config.headers['Authorization']) config.headers['Authorization'] = `Bearer ${token}`
 
     return config
 }, function (error) {
     return Promise.reject(error);
 })
 
+interface InternalAxiosRequestConfigOverloaded extends InternalAxiosRequestConfig {
+    isSent: boolean
+}
+
 axiosService.interceptors.response.use(
     (response) => response,
-    (error: AxiosError) => {
-        if (error.response?.status === 401) {
-            console.log("Unauthorized")
+    async (error: AxiosError) => {
+        const prevRequest: InternalAxiosRequestConfigOverloaded |undefined = error?.config as InternalAxiosRequestConfigOverloaded
+        if (error.response?.status === 401 && prevRequest && !prevRequest.isSent) {
+            prevRequest.isSent = true;
+            const newAccessToken = await getRefreshToken()
+            
+            prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+            localStorage.setItem('token', newAccessToken)
+            return axiosService(prevRequest);
         }
         return Promise.reject(error);
     }
 )
+
+const getRefreshToken = async () => {
+    try {
+        const response = await axios.post( `${BASE_URL}/auth/refresh`, {}, { withCredentials: true } )
+        return response.data?.accessToken
+    } catch (err) {
+        return ''
+    }
+}

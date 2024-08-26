@@ -2,7 +2,7 @@ import Logo from '../../assets/svgs/Logo.svg'
 import EyeOpen from '../../assets/svgs/EyeOpen.svg'
 import EyeClose from '../../assets/svgs/EyeClose.svg'
 import { useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ILoginAuthData } from '../../interfaces/Auth'
 import { useAuth } from '../../hooks/useAuth'
 
@@ -13,6 +13,8 @@ export const Login = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false)
   const { signIn } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const REDIRECT_TO = location.state?.redirectFrom?.pathname || '/'
 
   const emailRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
@@ -27,9 +29,9 @@ export const Login = () => {
     e.preventDefault()
     try {
       setIsAuthenticating(true)
-      if (validateAuthData() && signIn) {
+      if (validateAuthData()) {
         await signIn(authData)
-        navigate('/', { replace: true })
+        navigate(REDIRECT_TO, { replace: true })
       }
     } catch (err) {
       if (err instanceof Error) setError(err.message)

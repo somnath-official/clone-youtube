@@ -4,7 +4,7 @@ config()
 export const TOKEN_CONFIG = {
     key: process.env.JWT_SECRET_KEY || '<MySecretKey>',
     expirationTime: {
-        token: '30s',
+        token: '15m',
         refreshToken: '15d',
     }
 }

@@ -5,6 +5,7 @@ export interface IAuthContext {
     isLoggedIn: boolean
     user: IUser | null
     signIn: (payload: ILoginAuthData) => Promise<void>
+    logOut: () => Promise<boolean>
 }
 
 export interface ILoginAuthData {
