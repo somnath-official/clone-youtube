@@ -27,3 +27,19 @@ export const generateRefreshToken = ({ userId }: { userId: number }): string => 
 
     return refreshToken
 }
+
+export const verifyJwtRefreshToken = (token: string, userId: number): boolean => {
+    let status = false
+
+    jwt.verify(
+        token,
+        TOKEN_CONFIG.key,
+        (err, decoded) => {
+            const data = decoded as {userId: number, type: string}
+            if (err || (userId !== data.userId && data.type !== 'refreshToken')) status = false
+            status = true
+        }
+    )
+
+    return status
+}

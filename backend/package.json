@@ -9,7 +9,8 @@
     "prestart": "npm run build",
     "dev": "nodemon src/index.ts",
     "migrate": "npx prisma migrate dev --name init",
-    "db:pull": "npx prisma db pull"
+    "db:pull": "npx prisma db pull",
+    "generate": "npx prisma generate"
   },
   "nodemonConfig": {
     "ignore": [

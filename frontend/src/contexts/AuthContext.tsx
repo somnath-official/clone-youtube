@@ -2,8 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { IAuthContext, ILoginAuthData } from "../interfaces/Auth";
 import { IUser } from "../interfaces/User";
 import { axiosService } from "../utils/axiosService";
-import { API_ROUTES } from "../apis";
-import { AxiosError } from "axios";
+import { API_ROUTES, BASE_URL } from "../apis";
+import axios, { AxiosError } from "axios";
 
 export const AuthContext = createContext<IAuthContext | null>(null)
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactElement }) => 
 
     const signIn = async (payload: ILoginAuthData) => {
         try {
-            const res = (await axiosService.post(API_ROUTES.auth.login, payload)).data
+            const res = (await axios.post(API_ROUTES.auth.login, payload, {baseURL: BASE_URL, withCredentials: true})).data
             localStorage.setItem('token', res.accessToken)
             const user = (await axiosService.get(API_ROUTES.auth.user)).data
             setIsLoggedIn(true)

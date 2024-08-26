@@ -1,6 +1,6 @@
 import { ServerRoute } from "@hapi/hapi";
 import Joi from "joi";
-import { getUser, login, register } from "../controllers/AuthController";
+import { getUser, login, refreshToken, register } from "../controllers/AuthController";
 
 const TAGS = ['api', 'Auth']
 
@@ -28,6 +28,9 @@ export const AuthRoutes: ServerRoute[] = [
             tags: TAGS,
             auth: false,
             handler: login,
+            cors: {
+                credentials: true,
+            },
             validate: {
                 payload: Joi.object({
                     email: Joi.string().required().email(),
@@ -43,5 +46,21 @@ export const AuthRoutes: ServerRoute[] = [
             tags: TAGS,
             handler: getUser,
         },
-    }
+    },
+    {
+        method: 'post',
+        path: '/auth/refresh',
+        options: {
+            tags: TAGS,
+            auth: false,
+            handler: refreshToken,
+            cors: {
+                credentials: true,
+            },
+            state: {
+                parse: true,
+                failAction: 'error',
+            }
+        },
+    },
 ]
