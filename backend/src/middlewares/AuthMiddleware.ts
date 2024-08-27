@@ -32,6 +32,7 @@ export const jwtScheme = (server: Hapi.Server<Hapi.ServerApplicationState>) => {
                         username: true,
                         is_active: true,
                         is_verified: true,
+                        avatar: true,
                     }
                 })
 
