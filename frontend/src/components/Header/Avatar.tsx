@@ -16,7 +16,7 @@ export const Avatar = () => {
     let initials = 'N/A'
 
     if (name.split(' ').length === 1) initials = `${(name.split(' ')[0]).charAt(0)}`
-    else if (name.split(' ').length === 2) initials = `${(name.split(' ')[0]).charAt(0)} ${(name.split(' ')[1]).charAt(0)}`
+    else if (name.split(' ').length === 2) initials = `${(name.split(' ')[0]).charAt(0)}${(name.split(' ')[1]).charAt(0)}`
 
     return <div data-avatar>{initials}</div>
   }
@@ -37,7 +37,8 @@ export const Avatar = () => {
       if (
         e.target === menuRef.current ||
         e.target === menuWrapper.current ||
-        e.target === menuWrapper.current?.querySelector('div[data-avatar]')
+        e.target === menuWrapper.current?.querySelector('div[data-avatar]') ||
+        e.target === menuWrapper.current?.querySelector('img[data-avatar]')
       ) return
 
       if (menuRef.current) menuRef.current.classList.remove('show')
