@@ -14,15 +14,16 @@ header.heading {
                 color: inherit;
             }
         }
-        
+
         ul {
             list-style: none;
             display: flex;
             gap: 1rem;
-    
+            align-items: center;
+
             li {
                 cursor: pointer;
-    
+
                 a {
                     text-decoration: none;
                     color: inherit;
@@ -33,7 +34,7 @@ header.heading {
                         color: rgb(150, 150, 150);
                         transition: color 0.2s ease;
                     }
-    
+
                     &.active {
                         transition: border-bottom 0.5s ease;
                         border-bottom: 1px solid red;
@@ -41,6 +42,74 @@ header.heading {
                         &:hover {
                             color: white;
                             transition: color 0.2s ease;
+                        }
+                    }
+                }
+
+                &.nav-avatar {
+                    width: 40px;
+                    height: 40px;
+                    background-color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    aspect-ratio: 1 / 1;
+                    color: black;
+                    font-weight: 900;
+                    position: relative;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .menu {
+                        background-color: white;
+                        position: absolute;
+                        right: 8px;
+                        top: calc(100% + 8px);
+                        border-radius: 4px;
+                        width: 0px;
+
+                        .items {
+                            display: none;
+                        }
+
+                        &.show {
+                            min-width: 110px;
+                            overflow: hidden;
+                            box-shadow: 2px 2px 16px #00000052;
+
+                            a {
+                                padding: 0px;
+
+                                &:hover {
+                                    color: inherit;
+
+                                    .items {
+                                        background-color: #00000021;
+                                    }
+                                }
+
+                                &.active {
+                                    &:hover {
+                                        color: inherit;
+                                        background-color: #33d19730;
+                                    }
+
+                                    .items {
+                                        border-left: 3px solid #45d32b;
+                                        background-color: #33d19730;
+                                    }
+                                }
+                            }
+
+                            .items {
+                                display: block;
+                                font-size: 14px;
+                                padding: 0.5rem;
+                            }
                         }
                     }
                 }

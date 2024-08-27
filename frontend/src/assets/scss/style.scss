@@ -9,8 +9,8 @@ body {
 }
 
 main {
-    background-color: #0000001f;
-    min-height: calc(100dvh - 86px)
+    background-image: linear-gradient(180deg, black, transparent);
+    min-height: calc(100dvh - 104px)
 }
 
 @import url('./modules/Home.scss');

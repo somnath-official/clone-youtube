@@ -3,8 +3,8 @@ export const Home = () => {
     <div className="home-main">
       <section id="hero">
         <h1>Welcome to PlayTube</h1>
-        <p>Expand your creativity.</p>
-        <button>Get Started</button>
+        <p>Enjoy unlimited video and audio.</p>
+        <button>Explore</button>
       </section>
 
       <section className="home-section">

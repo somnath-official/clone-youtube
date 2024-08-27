@@ -5,4 +5,5 @@ export interface IUser {
     username: string
     is_active: boolean
     is_verified: boolean
+    avatar: string
 }
