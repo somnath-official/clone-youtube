@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react"
 import { useAuth } from "../../hooks/useAuth"
 import { NavLink, useNavigate } from "react-router-dom"
+import LogoutIcon from '../../assets/svgs/Logout.svg'
+import DashboardIcon from '../../assets/svgs/Dashboard.svg'
+import AccountIcon from '../../assets/svgs/Account.svg'
 
 export const Avatar = () => {
   const menuRef = useRef<HTMLDivElement | null>(null)
@@ -56,9 +59,22 @@ export const Avatar = () => {
       {getProfileImage()}
 
       <div className="menu" ref={menuRef}>
-        <NavLink to='/profile'><div className="items">Profile</div></NavLink>
-        <NavLink to='/dashboard'><div className="items">Dashboard</div></NavLink>
-        <div className="items" onClick={handleLogout}>Logout</div>
+        <NavLink to='/profile'>
+          <div className="items">
+            <img src={AccountIcon} />
+            <span>Profile</span>
+          </div>
+        </NavLink>
+        <NavLink to='/dashboard'>
+          <div className="items">
+            <img src={DashboardIcon} />
+            <span>Dashboard</span>
+          </div>
+        </NavLink>
+        <div className="items" onClick={handleLogout}>
+          <img src={LogoutIcon} />
+          <span>Logout</span>
+        </div>
       </div>
     </li>
   )

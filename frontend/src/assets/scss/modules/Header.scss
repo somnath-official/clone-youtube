@@ -78,7 +78,7 @@ header.heading {
                         }
 
                         &.show {
-                            min-width: 110px;
+                            min-width: 120px;
                             overflow: hidden;
                             box-shadow: 2px 2px 16px #00000052;
 
@@ -100,16 +100,22 @@ header.heading {
                                     }
 
                                     .items {
-                                        border-left: 3px solid #45d32b;
                                         background-color: #33d19730;
                                     }
                                 }
                             }
 
                             .items {
-                                display: block;
+                                display: flex;
+                                column-gap: 2px;
                                 font-size: 14px;
                                 padding: 0.5rem;
+                                align-items: center;
+
+                                img {
+                                    width: 20px;
+                                    border-radius: 0px;
+                                }
                             }
                         }
                     }
