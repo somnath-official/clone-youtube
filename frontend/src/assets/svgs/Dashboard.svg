@@ -1,0 +1,14 @@
+<svg fill="#000000" width="64px" height="64px" viewBox="0 0 24 24" id="dashboard-alt-3"
+    data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path id="secondary"
+            d="M16,20H14.78L14,16.76A1,1,0,0,0,13,16H11a1,1,0,0,0-1,.76L9.22,20H8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z"
+            style="fill: #2ca9bc;"></path>
+        <rect id="primary" x="2" y="2" width="20" height="16" rx="2" style="fill: #000000;"></rect>
+        <path id="secondary-2" data-name="secondary"
+            d="M17.58,6.19a1,1,0,0,0-1.39.23l-3.37,4.71A2.76,2.76,0,0,0,12,11a3,3,0,0,0-3,3,1,1,0,0,0,1,1h4a1,1,0,0,0,1-1,2.94,2.94,0,0,0-.55-1.72l3.36-4.7A1,1,0,0,0,17.58,6.19Z"
+            style="fill: #2ca9bc;"></path>
+    </g>
+</svg>

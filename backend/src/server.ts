@@ -1,4 +1,4 @@
-import Hapi from "@hapi/hapi";
+import Hapi, { ResponseObject } from "@hapi/hapi";
 import { Server } from "@hapi/hapi";
 import { routes } from "./routes";
 import { SERVER_OPTIONS } from "./config/server";
@@ -7,10 +7,7 @@ import inert from "@hapi/inert";
 import vision from '@hapi/vision';
 import hapiswagger from "hapi-swagger";
 import { SWAGGER_OPTIONS } from "./config/swagger";
-import { config } from "dotenv";
 import { customJwtPlugin } from "./plugins/Authentication";
-
-config()
 
 export const initServer = async () => {
     log('Starting server')
@@ -22,6 +19,10 @@ export const initServer = async () => {
 
     await server.start();
     log(`Server started. Server URL -> http://${server.info.host}:${server.info.port}`)
+
+    server.events.on('response', function (request) {
+        log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.path + ' --> ' + (request.response as ResponseObject).statusCode);
+    });
 
     return server
 }

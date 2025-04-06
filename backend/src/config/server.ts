@@ -1,19 +1,22 @@
 import Hapi from "@hapi/hapi";
-import dotenv from 'dotenv'
+import { SERVER_ENV } from "./environment";
 
-dotenv.config()
+const { HOST, PORT, ORIGIN } = SERVER_ENV
 
 export const SERVER_OPTIONS: Hapi.ServerOptions = {
-    host: process.env.HOST || 'localhost',
-    port: process.env.PORT || 8000,
+    host: HOST,
+    port: PORT,
     routes: {
         cors: {
-            origin: process.env.ORIGIN ? [process.env.ORIGIN] : ['*'],
+            origin: ORIGIN ? [ORIGIN] : ['*'],
         },
         validate: {
             failAction: async (req, res, err) => {
                 return err
             },
+            options: {
+                abortEarly: false
+            }
         }
     }
 }

@@ -68,7 +68,7 @@ export const register = async (req: Request, res: ResponseToolkit) => {
             }
         })
 
-        return res.response({ message: 'Account created successfully!' }).code(201)
+        return res.response({ message: 'Account created successfully! Please login now.' }).code(201)
     } catch (err: any) {
         console.log(err.message)
         return res.response('Internal server error!').code(500)

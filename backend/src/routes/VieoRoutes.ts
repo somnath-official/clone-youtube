@@ -1,18 +1,10 @@
 import { ServerRoute } from "@hapi/hapi";
-import { initUpload, Upload } from "../controllers/VideoController";
+import { Upload } from "../controllers/VideoController";
 import Joi from "joi";
 
 const TAGS = ['api', 'Videos']
 
 export const videoRoutes: ServerRoute[] = [
-    {
-        method: 'POST',
-        path: '/video/upload/init',
-        options: {
-            tags: TAGS,
-            handler: initUpload,
-        },
-    },
     {
         method: 'POST',
         path: '/video/upload',
@@ -22,10 +14,6 @@ export const videoRoutes: ServerRoute[] = [
             validate: {
                 payload: Joi.object({
                     file: Joi.any().meta({ swaggerType: 'file' }).required(),
-                    chunkNumber: Joi.number().required(),
-                    totalChunks: Joi.number().required(),
-                    originalname: Joi.string().required(),
-                    serverTempFileName: Joi.string().required(),
                 })
             },
             plugins: {

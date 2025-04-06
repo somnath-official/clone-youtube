@@ -1,16 +1,14 @@
 import jwt from 'jsonwebtoken'
-import { config } from 'dotenv'
 import { TOKEN_CONFIG } from '../config/token';
+import { JWT_ENV } from '../config/environment';
 
-config()
+const { SECRET: JWT_SECRET } = JWT_ENV
 
 export const generateToken = ({ userId }: { userId: number }): string => {
     const token = jwt.sign(
         { userId, type: 'accessToken' },
-        TOKEN_CONFIG.key,
-        {
-            expiresIn: TOKEN_CONFIG.expirationTime.token
-        }
+        JWT_SECRET,
+        { expiresIn: TOKEN_CONFIG.expirationTime.token }
     );
 
     return token
@@ -19,13 +17,15 @@ export const generateToken = ({ userId }: { userId: number }): string => {
 export const generateRefreshToken = ({ userId }: { userId: number }): string => {
     const refreshToken = jwt.sign(
         { userId, type: 'refreshToken' },
-        TOKEN_CONFIG.key,
-        {
-            expiresIn: TOKEN_CONFIG.expirationTime.refreshToken
-        }
+        JWT_SECRET,
+        { expiresIn: TOKEN_CONFIG.expirationTime.refreshToken }
     );
 
     return refreshToken
+}
+
+export const decodeJwtToken = (token: string): jwt.JwtPayload => {
+    return jwt.verify(token, JWT_SECRET) as jwt.JwtPayload
 }
 
 export const verifyJwtRefreshToken = (token: string, userId: number): boolean => {
@@ -33,11 +33,14 @@ export const verifyJwtRefreshToken = (token: string, userId: number): boolean =>
 
     jwt.verify(
         token,
-        TOKEN_CONFIG.key,
+        JWT_SECRET,
         (err, decoded) => {
             const data = decoded as {userId: number, type: string}
-            if (err || (userId !== data.userId && data.type !== 'refreshToken')) status = false
-            status = true
+            
+            if (err) status = false
+            else if (data.type !== 'refreshToken') status = false
+            else if (userId !== data.userId) status = false
+            else status = true
         }
     )
 
