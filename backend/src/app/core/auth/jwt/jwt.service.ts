@@ -63,7 +63,7 @@ export class Jwt {
             const user = await this.userService.findUserById(id)
             if (!user) throw new UnauthorizedException()
     
-            return { id }
+            return { id: user._id.toString(), sub: user.sub }
         } catch {
             throw new UnauthorizedException();
         }
