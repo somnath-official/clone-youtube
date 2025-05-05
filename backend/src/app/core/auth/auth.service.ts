@@ -25,15 +25,15 @@ export class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) throw new UnauthorizedException('Invalid username or password');
     
-        const access_token = await this.jwtService.generateAccessToken({ sub: user.sub });
-        const refresh_token = await this.jwtService.generateRefreshToken({ sub: user.sub });
+        const access_token = await this.jwtService.generateAccessToken({ id: user._id.toString() });
+        const refresh_token = await this.jwtService.generateRefreshToken({ id: user._id.toString() });
     
         return { access_token, refresh_token };
     }
 
     async refreshTheAccessToken( refresh_token: string ): Promise<{ access_token: string }> {
-        const { sub } = await this.jwtService.verifyRefreshToken(refresh_token)
-        const access_token = await this.jwtService.generateAccessToken({ sub });
+        const { id } = await this.jwtService.verifyRefreshToken(refresh_token)
+        const access_token = await this.jwtService.generateAccessToken({ id });
         
         return {
           access_token,

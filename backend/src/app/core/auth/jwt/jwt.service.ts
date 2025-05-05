@@ -36,15 +36,15 @@ export class Jwt {
         )
     }
 
-    async verifyAccessToken(access_token: string): Promise<User> {
+    async verifyAccessToken(access_token: string) {
         try {
             if (!access_token) throw new UnauthorizedException();
             
-            const { sub, type }: IJwtTokenPayload = await this.jwtService.verifyAsync(access_token);
+            const { id, type }: IJwtTokenPayload = await this.jwtService.verifyAsync(access_token);
 
-            if (type !== jwtTokenConfig.accessToken.type || !sub) throw new UnauthorizedException();
+            if (type !== jwtTokenConfig.accessToken.type || !id) throw new UnauthorizedException();
 
-            const user = await this.userService.findUserBySub(sub);
+            const user = await this.userService.findUserById(id);
             if (!user) throw new UnauthorizedException();
 
             return user;
@@ -53,17 +53,17 @@ export class Jwt {
         }
     }
 
-    async verifyRefreshToken(refresh_token: string): Promise<{sub: string}> {
+    async verifyRefreshToken(refresh_token: string) {
         try {
             if (!refresh_token) throw new UnauthorizedException();
     
-            const { sub, type }: IJwtTokenPayload = await this.jwtService.verifyAsync(refresh_token);
-            if (type !== jwtTokenConfig.refreshToken.type || !sub) throw new UnauthorizedException();
+            const { id, type }: IJwtTokenPayload = await this.jwtService.verifyAsync(refresh_token);
+            if (type !== jwtTokenConfig.refreshToken.type || !id) throw new UnauthorizedException();
     
-            const user = await this.userService.findUserBySub(sub)
+            const user = await this.userService.findUserById(id)
             if (!user) throw new UnauthorizedException()
     
-            return { sub }
+            return { id }
         } catch {
             throw new UnauthorizedException();
         }

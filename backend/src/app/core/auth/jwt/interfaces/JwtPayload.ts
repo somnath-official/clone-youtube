@@ -1,5 +1,5 @@
 export interface IJwtTokenPayload {
-  sub: string;
+  id: string;
   type?: 'accessToken' | 'refreshToken';
   iat?: number;
   exp?: number;

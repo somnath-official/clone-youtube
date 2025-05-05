@@ -10,6 +10,7 @@ declare module 'express' {
       name: string;
       email: string;
       sub: string
+      id: string;
     };
   }
 }
